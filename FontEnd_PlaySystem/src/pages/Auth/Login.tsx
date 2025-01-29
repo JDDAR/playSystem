@@ -1,10 +1,13 @@
-import SigninIn from "./SigningIn";
+import SigninIn from "./AuthForms/SigningIn";
+//estilos
+import "./login.scss";
 
 const Login = () => {
   return (
     <>
-      <div>Login NODO NEXUS</div>
-      <SigninIn />
+      <div className="containerLogin">
+        <SigninIn />
+      </div>
     </>
   );
 };

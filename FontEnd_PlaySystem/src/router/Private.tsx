@@ -3,6 +3,7 @@ import { lazy } from "react";
 import { RouterWithNotFound } from "../utilities";
 import { RoleGuard } from "../components/Auth";
 import { PrivateRoutes } from "./routes";
+import ManagerDashboard from "../pages/Dashboard/ManagerDashboard";
 
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
 const AdminDashboard = lazy(() => import("../pages/Dashboard/AdminDashboard"));
@@ -18,7 +19,7 @@ function Private() {
       <Route
         path={PrivateRoutes.ADMINDASHBOARD}
         element={
-          <RoleGuard rol="ADMIN">
+          <RoleGuard rol="ADMINISTRATOR">
             <AdminDashboard />
           </RoleGuard>
         }
@@ -28,6 +29,14 @@ function Private() {
         element={
           <RoleGuard rol="CLIENT">
             <ClientDashboard />
+          </RoleGuard>
+        }
+      />
+      <Route
+        path={PrivateRoutes.MANAGERDASHBOARD}
+        element={
+          <RoleGuard rol="MANAGER">
+            <ManagerDashboard />
           </RoleGuard>
         }
       />

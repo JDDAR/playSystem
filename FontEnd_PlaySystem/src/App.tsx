@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import "./App.css";
 import { Provider } from "react-redux";
 import { BrowserRouter, Navigate, Route } from "react-router-dom";
 import { RouterWithNotFound } from "./utilities";
@@ -10,6 +9,7 @@ import store from "./store/store";
 import Private from "./router/Private";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import ClientDashboard from "./pages/Dashboard/ClientDashboard";
+import ManagerDashboard from "./pages/Dashboard/ManagerDashboard";
 
 function App() {
   return (
@@ -36,6 +36,10 @@ function App() {
                   <Route
                     path={PrivateRoutes.CLIENTDASHBOARD}
                     element={<ClientDashboard />}
+                  />
+                  <Route
+                    path={PrivateRoutes.MANAGERDASHBOARD}
+                    element={<ManagerDashboard />}
                   />
                 </Route>
               </RouterWithNotFound>

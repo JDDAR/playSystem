@@ -1,0 +1,85 @@
+@use "variables" as *;
+//gradient
+@mixin gradientBg($direction, $colors...) {
+  background-image: linear-gradient($direction, $colors...);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+//Flexbox Center
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//Sombra Card
+@mixin cardShadow($radius: 10px, $padding: 20px) {
+  border-radius: $radius;
+  padding: $padding;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+//Animacion de fade-in(opacidad)
+@mixin fadeInMixin($time: 0.5s) {
+  animation: fadeIn $time ease-in-out;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+//animacion de slice(abajo para arriba con opacidad)
+@mixin slideAnimationMixin($duration: 0.8s, $distance: 30px) {
+  animation: slideUpFadeIn $duration ease-out;
+  overflow: none;
+
+  @keyframes slideUpFadeIn {
+    from {
+      transform: translateY($distance);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+//Animacion de transion
+@mixin transitionMixin($property: all, $duration: 0.3s) {
+  transition: $property $duration ease-in-out();
+}
+
+//Mixin botones
+@mixin buttonPrimary {
+  padding: 12px;
+  background: $colorPrimary;
+  color: $colorBgPrimary;
+  border: none;
+  border-radius: 6px;
+}
+
+//Mixin Fomulario
+@mixin formStyles {
+  fieldset {
+    border: none;
+  }
+  label {
+    display: none;
+  }
+  input {
+    border: 1px solid $colorLine;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  button {
+    @include buttonPrimary();
+  }
+}

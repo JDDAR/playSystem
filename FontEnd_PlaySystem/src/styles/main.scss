@@ -1,0 +1,21 @@
+//Importando Abstract
+@use "./abstracts/index" as *;
+
+//Importando base
+@use "./base/index" as *;
+
+body {
+  height: 100vh;
+  width: 100vw;
+  font-family: $fontFamily;
+  color: $colorFont;
+
+  @include gradientBg(
+    to right bottom,
+    $colorSecondary,
+    $colorTertiary,
+    $colorQuaternary,
+    $colorQuinary,
+    $colorSenary
+  );
+}

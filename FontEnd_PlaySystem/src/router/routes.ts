@@ -8,4 +8,5 @@ export const PrivateRoutes = {
   HOME: "home",
   ADMINDASHBOARD: "admin",
   CLIENTDASHBOARD: "client",
+  MANAGERDASHBOARD: "manager",
 };
