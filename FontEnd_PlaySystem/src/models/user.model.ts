@@ -3,6 +3,7 @@ export interface UserInfo {
   user: {
     id: string;
     userName: string;
+    image: string;
     role: string;
   };
 }

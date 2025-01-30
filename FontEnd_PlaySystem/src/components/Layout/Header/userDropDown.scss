@@ -1,0 +1,19 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerUserDropDown {
+  position: absolute;
+  right: 15px;
+  top: 75px;
+  border: 1px solid $colorBgPrimary;
+  padding: 15px;
+  border-radius: 6px;
+
+  ul {
+    list-style-type: none;
+    li {
+      button {
+        @include buttonPrimary;
+      }
+    }
+  }
+}

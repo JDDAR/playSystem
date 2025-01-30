@@ -7,6 +7,7 @@ export const initialState: UserInfo = {
   user: {
     id: "",
     userName: "",
+    image: "",
     role: "",
   },
 };

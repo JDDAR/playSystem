@@ -1,0 +1,32 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerHeader {
+  color: $colorBgPrimary;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  position: relative;
+
+  &__UserProfile {
+    display: flex;
+    gap: 15px;
+
+    &__Name {
+      text-align: right;
+      line-height: 1.5rem;
+      p {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  &__Avatar {
+    border: 1px solid $colorBgPrimary;
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    cursor: pointer;
+
+    @include flexCenter;
+  }
+}
