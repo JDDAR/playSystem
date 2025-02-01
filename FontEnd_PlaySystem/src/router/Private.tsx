@@ -6,7 +6,9 @@ import { PrivateRoutes } from "./routes";
 import ManagerDashboard from "../pages/Dashboard/ManagerDashboard";
 
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
-const AdminDashboard = lazy(() => import("../pages/Dashboard/AdminDashboard"));
+const AdminDashboard = lazy(
+  () => import("../pages/Dashboard/AdminDashboard/AdminDashboard"),
+);
 const ClientDashboard = lazy(
   () => import("../pages/Dashboard/ClientDashboard"),
 );

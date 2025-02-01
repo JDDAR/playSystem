@@ -4,10 +4,15 @@ import { RootState } from "../../../store/store";
 import UserDropdown from "./UserDropdown";
 
 import "./header.scss";
+import { NavConfig } from "../../../router/navConfig";
+import { NavLink } from "react-router-dom";
 
 const Header: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const navigationItem = NavConfig[user.role] || [];
 
   //Obteber iniciales del usuario
   const getInitials = (name: string) => {
@@ -24,6 +29,20 @@ const Header: React.FC = () => {
   return (
     <header className="containerHeader">
       <h3>SystemPlay</h3>
+
+      <nav className="containerHeader__NavHeader">
+        {navigationItem.map(({ path, label, icon }) => (
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          >
+            {icon}
+            <span>{label}</span>
+          </NavLink>
+        ))}
+      </nav>
+
       <div className="containerHeader__UserProfile">
         <div className="containerHeader__UserProfile__Name">
           <h4>{user.userName || "Usuario"}</h4>
