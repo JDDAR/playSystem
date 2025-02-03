@@ -4,6 +4,12 @@ export interface UserInfo {
     id: string;
     userName: string;
     image: string;
-    role: string;
+    role:
+      | "ADMINISTRATOR"
+      | "CLIENT"
+      | "PRODUCTION"
+      | "LOGISTICS"
+      | "PACKAGING"
+      | "DELIVERY";
   };
 }
