@@ -1,4 +1,6 @@
-package org.api.java.Backend_playSystem.dto.response;
+package org.api.java.Backend_playSystem.dto.auth;
+
+import org.api.java.Backend_playSystem.dto.user.UserResponseDto;
 
 import lombok.Data;
 import lombok.Getter;

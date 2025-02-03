@@ -5,9 +5,9 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.api.java.Backend_playSystem.dto.request.LoginRequestDto;
-import org.api.java.Backend_playSystem.dto.request.NewUserDto;
-import org.api.java.Backend_playSystem.dto.response.AuthResponseDto;
+import org.api.java.Backend_playSystem.dto.auth.AuthResponseDto;
+import org.api.java.Backend_playSystem.dto.auth.LoginRequestDto;
+import org.api.java.Backend_playSystem.dto.user.NewUserDto;
 import org.api.java.Backend_playSystem.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

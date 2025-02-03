@@ -1,4 +1,4 @@
-package org.api.java.Backend_playSystem.dto.request;
+package org.api.java.Backend_playSystem.dto.user;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,8 +1,8 @@
 package org.api.java.Backend_playSystem.services;
 
-import org.api.java.Backend_playSystem.dto.request.NewUserDto;
-import org.api.java.Backend_playSystem.dto.response.AuthResponseDto;
-import org.api.java.Backend_playSystem.dto.response.UserResponseDto;
+import org.api.java.Backend_playSystem.dto.auth.AuthResponseDto;
+import org.api.java.Backend_playSystem.dto.user.NewUserDto;
+import org.api.java.Backend_playSystem.dto.user.UserResponseDto;
 import org.api.java.Backend_playSystem.entities.Role;
 import org.api.java.Backend_playSystem.entities.User;
 import org.api.java.Backend_playSystem.jwt.JwtUtil;

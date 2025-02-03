@@ -1,4 +1,4 @@
-package org.api.java.Backend_playSystem.dto.request;
+package org.api.java.Backend_playSystem.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

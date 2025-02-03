@@ -1,4 +1,4 @@
-package org.api.java.Backend_playSystem.config;
+package org.api.java.Backend_playSystem.config.security;
 
 import org.api.java.Backend_playSystem.jwt.JwtAuthenticationFilter;
 import org.api.java.Backend_playSystem.jwt.JwtEntryPoint;
