@@ -24,11 +24,9 @@ public class ClientController {
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
   private final ClientService clientService;
-  private final UserService userService;
 
-  public ClientController(ClientService clientService, UserService userService) {
+  public ClientController(ClientService clientService) {
     this.clientService = clientService;
-    this.userService = userService;
   }
 
   @PreAuthorize("hasRole('ADMINISTRATOR')")

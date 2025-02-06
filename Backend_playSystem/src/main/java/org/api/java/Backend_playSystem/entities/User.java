@@ -6,6 +6,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.api.java.Backend_playSystem.enums.DocumentType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -59,6 +61,7 @@ public class User {
   private Role role;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  @JsonBackReference
   private ClientEntity client;
 
   public User(String userName, String lastName, String email, String phone, String address, String password,

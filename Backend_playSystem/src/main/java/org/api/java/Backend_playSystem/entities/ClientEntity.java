@@ -4,6 +4,8 @@ package org.api.java.Backend_playSystem.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +37,8 @@ public class ClientEntity {
   private String observaciones;
   private String descripcion;
 
-  @ManyToOne
+  @JsonManagedReference
+  @OneToOne
   @JoinColumn(name = "id_user")
   private User user;
 
