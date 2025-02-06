@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.api.java.Backend_playSystem.entities.User;
+import org.api.java.Backend_playSystem.entities.Role;
 import org.api.java.Backend_playSystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,8 +14,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class UserService implements UserDetailsService {
+
+  private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
   @Autowired
   private UserRepository userRepository;
@@ -31,7 +37,7 @@ public class UserService implements UserDetailsService {
   public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
     User user = userRepository.findByUserName(userName)
         .orElseThrow(() -> new UsernameNotFoundException("Usuarion no encontrado..."));
-    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName().toString());
+    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().getName().toString());
 
     return new org.springframework.security.core.userdetails.User(
         user.getUserName(),
@@ -69,6 +75,30 @@ public class UserService implements UserDetailsService {
     user.setRole(updateUser.getRole());
 
     return userRepository.save(user);
+  }
+
+  // Verificando el usuario de rol CLIENTE:
+  public boolean isUserClient(String userId) {
+    try {
+      log.info("Verificando rol CLIENT para usuario ID: {}", userId);
+      User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+      if (user == null) {
+        log.error("Usuario no encontrado con ID: {}", userId);
+        return false;
+      }
+
+      Role role = user.getRole();
+      log.info("Rol del usuario {}: {} (ID: {})", userId, role.getName(), role.getId());
+
+      boolean isClient = role.getId() == 7; // Comparar por ID (7 = CLIENT en BD)
+      log.info("¿Es CLIENT? {}", isClient);
+
+      return user.getRole().getId() == 7L;
+    } catch (Exception e) {
+      log.error("Error en isUserClient: ", e);
+      return false;
+    }
   }
 
 }

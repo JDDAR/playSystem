@@ -9,12 +9,18 @@ import lombok.NoArgsConstructor;
 import org.api.java.Backend_playSystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.Claims;
+
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -40,12 +46,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = userService.loadUserByUsername(userName);
 
-      if (jwtUtil.validateToken(jwt, userDetails)) {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-            userDetails, null, userDetails.getAuthorities());
-        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-      }
+      Claims claims = jwtUtil.extractAllClaims(jwt);
+
+      // Extraer los roles directamente desde el token
+      final String extractedRole = claims.get("role", String.class);
+      Collection<? extends GrantedAuthority> authorities = List.of(
+          new SimpleGrantedAuthority(extractedRole));
+
+      UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+          userDetails, null, authorities);
+      authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+      SecurityContextHolder.getContext().setAuthentication(authToken);
+
     }
     filterChain.doFilter(request, response);
   }

@@ -2,21 +2,23 @@
 package org.api.java.Backend_playSystem.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "clientes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "clientes")
-public class ClienteEntity {
+public class ClientEntity {
 
   @Id
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
   @Column(nullable = false)
   private String nombreEmpresa;
@@ -33,7 +35,11 @@ public class ClienteEntity {
   private String observaciones;
   private String descripcion;
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
-  @JoinColumn(name = "idUser", nullable = false)
+  @ManyToOne
+  @JoinColumn(name = "id_user")
   private User user;
+
+  @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<DependenciaEntity> dependencias;
+
 }

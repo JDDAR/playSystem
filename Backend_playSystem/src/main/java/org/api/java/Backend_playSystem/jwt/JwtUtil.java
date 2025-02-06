@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +24,18 @@ public class JwtUtil {
   private int expiration;
 
   public String generateToken(Authentication authentication) {
+
     UserDetails mainUser = (UserDetails) authentication.getPrincipal();
     SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-    return Jwts.builder().setSubject(mainUser.getUsername())
+
+    String role = mainUser.getAuthorities().stream()
+        .findFirst()
+        .map(GrantedAuthority::getAuthority)
+        .orElse("ROLE_USER");
+
+    return Jwts.builder()
+        .setSubject(mainUser.getUsername())
+        .claim("role", role)
         .setIssuedAt(new Date())
         .setExpiration(new Date(new Date().getTime() + expiration * 1000L))
         .signWith(key, SignatureAlgorithm.HS256)

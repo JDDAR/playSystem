@@ -26,8 +26,10 @@ public class SecurityConfig {
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/register", "/api/login")
-            .permitAll()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/login").permitAll()
+            .requestMatchers("/api/users/register").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/clientes/**").hasAuthority("ROLE_ADMINISTRATOR")
             .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint()))

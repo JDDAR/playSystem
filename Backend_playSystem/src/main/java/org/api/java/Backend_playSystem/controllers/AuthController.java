@@ -7,10 +7,8 @@ import javax.validation.Valid;
 
 import org.api.java.Backend_playSystem.dto.auth.AuthResponseDto;
 import org.api.java.Backend_playSystem.dto.auth.LoginRequestDto;
-import org.api.java.Backend_playSystem.dto.user.NewUserDto;
 import org.api.java.Backend_playSystem.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,22 +41,6 @@ public class AuthController {
       Map<String, String> errorResponse = new HashMap<>();
       errorResponse.put("error", e.getMessage());
       return ResponseEntity.badRequest().body(errorResponse);
-    }
-  }
-
-  @PostMapping("/register")
-  public ResponseEntity<String> register(@Valid @RequestBody NewUserDto newUserDto, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      // Si hay errores, devolvemos un mensaje claro
-      return ResponseEntity.badRequest().body("Revise los campos: " + bindingResult.getFieldErrors());
-    }
-    try {
-      String response = authService.registerUser(newUserDto);
-      return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
   }
 

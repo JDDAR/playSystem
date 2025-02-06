@@ -20,9 +20,9 @@ public class DependenciaEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "cliente_id", nullable = false)
-  private ClienteEntity cliente;
+  private ClientEntity cliente;
 
   @Column(nullable = false)
   private String numLocal;
@@ -68,4 +68,5 @@ public class DependenciaEntity {
 
   @Enumerated(EnumType.STRING)
   private TipoEstructuraEnum tipoEstructura;
+
 }

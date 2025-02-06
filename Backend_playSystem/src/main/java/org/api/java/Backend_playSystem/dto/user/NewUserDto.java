@@ -3,6 +3,8 @@ package org.api.java.Backend_playSystem.dto.user;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.api.java.Backend_playSystem.enums.DocumentType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,12 @@ public class NewUserDto {
 
   @NotBlank(message = "La contraseña no puede estar vacia")
   private String password;
+
+  @NotBlank(message = "El numero de identificación es obligatorio")
+  private String identificationNumber;
+
+  @NotBlank(message = "El tipo de documeto es obligatorio")
+  private DocumentType documentType;
 
   @NotNull(message = "El id del rol es obligatorio")
   private Long idRol;

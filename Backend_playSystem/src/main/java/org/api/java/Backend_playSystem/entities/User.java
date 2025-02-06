@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 
+import org.api.java.Backend_playSystem.enums.DocumentType;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,18 +47,30 @@ public class User {
   @Column(unique = false)
   private String password;
 
+  @Column(nullable = false, unique = true)
+  private String identificationNumber;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private DocumentType documentType;
+
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "roleId", nullable = false)
   private Role role;
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  private ClientEntity client;
+
   public User(String userName, String lastName, String email, String phone, String address, String password,
-      Role role) {
+      String identificationNumber, DocumentType documentType, Role role) {
     this.userName = userName;
     this.lastName = lastName;
     this.email = email;
     this.phone = phone;
     this.address = address;
     this.password = password;
+    this.identificationNumber = identificationNumber;
+    this.documentType = documentType;
     this.role = role;
     this.fechaCreacion = LocalDateTime.now(); // Fecha de creación por defecto
   }

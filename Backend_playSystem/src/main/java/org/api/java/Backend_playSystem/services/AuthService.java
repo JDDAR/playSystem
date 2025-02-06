@@ -70,7 +70,8 @@ public class AuthService {
 
       // Creando nuevo usuario
       User user = new User(newUserDto.getUserName(), newUserDto.getLastName(), newUserDto.getEmail(),
-          newUserDto.getPhone(), newUserDto.getAddress(), passwordEncoder.encode(newUserDto.getPassword()), roleUser);
+          newUserDto.getPhone(), newUserDto.getAddress(), passwordEncoder.encode(newUserDto.getPassword()),
+          newUserDto.getIdentificationNumber(), newUserDto.getDocumentType(), roleUser);
       // Guardando al usuario
       userService.save(user);
 
