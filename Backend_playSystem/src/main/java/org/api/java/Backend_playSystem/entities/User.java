@@ -60,7 +60,7 @@ public class User {
   @JoinColumn(name = "roleId", nullable = false)
   private Role role;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonBackReference
   private ClientEntity client;
 

@@ -1,0 +1,22 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerHeaderDinamic {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+
+  &_contentButtons {
+    display: flex;
+    gap: 25px;
+
+    input {
+      border: none;
+      border-radius: 12px;
+      padding: 5px 15px;
+    }
+
+    button {
+      @include buttonPrimary();
+    }
+  }
+}

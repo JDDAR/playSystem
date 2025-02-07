@@ -22,8 +22,20 @@
 }
 
 //Animacion de fade-in(opacidad)
-@mixin fadeInMixin($time: 0.5s) {
+@mixin fadeInOutMixin($time: 0.5s) {
   animation: fadeIn $time ease-in-out;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+//Animacion de (opacidad)
+@mixin fadeInMixin($time: 0.5s) {
+  animation: fadeIn $time ease;
   @keyframes fadeIn {
     from {
       opacity: 0;

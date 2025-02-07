@@ -1,25 +1,19 @@
-package org.api.java.Backend_playSystem.dto.Dependencias;
+package org.api.java.Backend_playSystem.dto.dependencias;
 
 import java.time.LocalDateTime;
 
 import org.api.java.Backend_playSystem.entities.DependenciaEntity;
 import org.api.java.Backend_playSystem.enums.*;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class DependenciaRequestDto {
+public class DependenciaResponseDto {
+  private String idDependencia;
   private String numLocal;
   private String puntoVenta;
   private String direccion;
+  private LocalDateTime fechaCreacion;
   private String tels;
   private String instalador;
   private String ent;
@@ -31,7 +25,6 @@ public class DependenciaRequestDto {
   private String antenas;
   private String cabezotes;
   private String area;
-  private String clienteId;
   private HorarioEnum horario;
   private CiudadEnum ciudad;
   private RegionEnum region;
@@ -40,43 +33,12 @@ public class DependenciaRequestDto {
   private TamanoTiendaEnum tamanoTienda;
   private TipoEstructuraEnum tipoEstructura;
 
-  // Constructor con todos los campos
-  public DependenciaRequestDto(
-      String idDependencia, String numLocal, String puntoVenta, String direccion, String clienteId,
-      String tels, String instalador, String ent, String parqueadero, String cenefa,
-      String banderinesExternos, String vinilosVidrios, String pendones, String antenas,
-      String cabezotes, String area, HorarioEnum horario, CiudadEnum ciudad, RegionEnum region,
-      PrioridadEnum prioridad, EnvioEnum envio, TamanoTiendaEnum tamanoTienda,
-      TipoEstructuraEnum tipoEstructura, LocalDateTime fechaCreacion) {
-    this.numLocal = numLocal;
-    this.puntoVenta = puntoVenta;
-    this.direccion = direccion;
-    this.tels = tels;
-    this.instalador = instalador;
-    this.ent = ent;
-    this.parqueadero = parqueadero;
-    this.cenefa = cenefa;
-    this.banderinesExternos = banderinesExternos;
-    this.vinilosVidrios = vinilosVidrios;
-    this.pendones = pendones;
-    this.antenas = antenas;
-    this.cabezotes = cabezotes;
-    this.area = area;
-    this.clienteId = clienteId;
-    this.horario = horario;
-    this.ciudad = ciudad;
-    this.region = region;
-    this.prioridad = prioridad;
-    this.envio = envio;
-    this.tamanoTienda = tamanoTienda;
-    this.tipoEstructura = tipoEstructura;
-  }
-
-  // Constructor que recibe una entidad
-  public DependenciaRequestDto(DependenciaEntity dependencia) {
+  public DependenciaResponseDto(DependenciaEntity dependencia) {
+    this.idDependencia = dependencia.getIdDependencia();
     this.numLocal = dependencia.getNumLocal();
     this.puntoVenta = dependencia.getPuntoVenta();
     this.direccion = dependencia.getDireccion();
+    this.fechaCreacion = dependencia.getFechaCreacion();
     this.tels = dependencia.getTels();
     this.instalador = dependencia.getInstalador();
     this.ent = dependencia.getEnt();
@@ -95,6 +57,5 @@ public class DependenciaRequestDto {
     this.envio = dependencia.getEnvio();
     this.tamanoTienda = dependencia.getTamanoTienda();
     this.tipoEstructura = dependencia.getTipoEstructura();
-    this.clienteId = dependencia.getCliente().getId();
   }
 }

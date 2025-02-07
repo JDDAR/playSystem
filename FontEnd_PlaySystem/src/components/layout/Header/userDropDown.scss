@@ -2,13 +2,18 @@
 
 .containerUserDropDown {
   position: absolute;
-  right: 15px;
-  top: 75px;
+  right: 25px;
+  top: 70px;
   border: 1px solid $colorBgPrimary;
   padding: 15px;
   border-radius: 6px;
-
+  background-color: $colorBgPrimary;
+  border: 2px solid $colorSecondary;
+  color: $colorFont;
   ul {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     list-style-type: none;
     li {
       button {
