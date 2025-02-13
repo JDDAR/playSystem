@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./clientDetailsModal.scss";
 import DependencyClient from "../layout/Client/DependencyClient";
 
+import { LuShapes } from "react-icons/lu";
+import { LuArrowLeft } from "react-icons/lu";
 interface ClientDetailsModalProps {
   cliente: {
     id: string;
@@ -26,48 +28,60 @@ const ClientDetailsModal: React.FC<ClientDetailsModalProps> = ({
 
   return (
     <div className="containerClientModal">
-      {/* Botones superiores */}
       <div className="containerClientModal_modal-header">
-        <button onClick={onClose}>Volver a la lista de clientes</button>
+        <button onClick={onClose}>
+          <LuArrowLeft /> Volver a la lista de clientes
+        </button>
         <button onClick={() => navigate("/")}>Inicio</button>
       </div>
 
       <div className="containerClientModal_modal-content">
         <div className="left-container">
-          <h2>{cliente.nombreEmpresa}</h2>
-          <p>
-            <strong>Email:</strong> {cliente.emailContacto}
-          </p>
-          <p>
-            <strong>Teléfono:</strong> {cliente.telefonoContacto}
-          </p>
-          <p>
-            <strong>Descripción:</strong> {cliente.descripcion}
-          </p>
-          <p>
-            <strong>Dirección:</strong> {cliente.direccionPrincipal}
-          </p>
-          <p>
-            <strong>NIT:</strong> {cliente.nit}
-          </p>
-          <p>
-            <strong>Observaciones:</strong> {cliente.observaciones}
-          </p>
+          <div className="left-container__Header">
+            <figure>
+              <img />
+            </figure>
+            <div className="left-container__Header_right">
+              <h2>{cliente.nombreEmpresa}</h2>
+              <h4>{cliente.nit}</h4>
+            </div>
+          </div>
+          <div className="left-container__infoCliente">
+            <p>
+              <strong>Email</strong> {cliente.emailContacto}
+            </p>
+
+            <p>
+              <strong>Teléfono</strong> {cliente.telefonoContacto}
+            </p>
+            <p>
+              <strong>Dirección</strong> {cliente.direccionPrincipal}
+            </p>
+            <p>
+              <strong>NIT</strong> {cliente.nit}
+            </p>
+          </div>
+          <div className="left-container__footer">
+            <p>
+              <strong>Descripción:</strong> {cliente.descripcion}
+            </p>
+            <p>
+              <strong>Observaciones:</strong> {cliente.observaciones}
+            </p>
+          </div>
         </div>
 
         {/* Contenedor de la derecha: Navegación */}
         <div className="right-container">
           <nav>
             <button onClick={() => setSelectedSection("tiendas")}>
-              Tiendas
+              <LuShapes /> Tiendas
             </button>
             <button onClick={() => setSelectedSection("proyectos")}>
               Proyectos
             </button>
-            {/* Puedes agregar más botones de navegación aquí en el futuro */}
           </nav>
 
-          {/* Contenido dinámico según la sección seleccionada */}
           <div className="section-content">
             {selectedSection === "tiendas" && (
               <DependencyClient idClient={cliente.id} />

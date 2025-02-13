@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class DependenciaEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String idDependencia;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

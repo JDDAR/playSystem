@@ -31,6 +31,7 @@ public class SecurityConfig {
             .requestMatchers("/api/users/register").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/clientes/**").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/dependencias/**").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/enums/**").hasAuthority("ROLE_ADMINISTRATOR")
             .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint()))

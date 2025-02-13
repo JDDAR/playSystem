@@ -17,6 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DependenciaRequestDto {
+  private String idDependencia;
   private String numLocal;
   private String puntoVenta;
   private String direccion;
@@ -48,6 +49,7 @@ public class DependenciaRequestDto {
       String cabezotes, String area, HorarioEnum horario, CiudadEnum ciudad, RegionEnum region,
       PrioridadEnum prioridad, EnvioEnum envio, TamanoTiendaEnum tamanoTienda,
       TipoEstructuraEnum tipoEstructura, LocalDateTime fechaCreacion) {
+    this.idDependencia = idDependencia;
     this.numLocal = numLocal;
     this.puntoVenta = puntoVenta;
     this.direccion = direccion;

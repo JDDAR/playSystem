@@ -1,0 +1,65 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerDependencyClient {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 30px;
+
+  &_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .highlight {
+    background-color: greenyellow;
+    font-weight: bold;
+  }
+
+  &_cards {
+    padding: 15px;
+    border-radius: 12px;
+    &:hover {
+      background: $colorBgSecondary;
+    }
+  }
+  &_card {
+    height: 80px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    #numeroLocal {
+      width: 30%;
+    }
+
+    p {
+      width: 100%;
+      margin-right: 15px;
+      padding-right: 15px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid $colorLine;
+      strong {
+        font-size: 0.9rem;
+        font-weight: 1.2rem;
+        font-weight: 600;
+      }
+      span {
+        font-size: 0.7rem;
+      }
+    }
+    button {
+      border-radius: 50px;
+      padding: 5px 15px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      background: $colorPrimary;
+      color: $colorBgPrimary;
+      cursor: pointer;
+    }
+  }
+}

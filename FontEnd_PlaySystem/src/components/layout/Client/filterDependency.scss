@@ -1,0 +1,10 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerFilter {
+  @include formStyles();
+
+  &_search {
+    display: flex;
+    gap: 15px;
+  }
+}
