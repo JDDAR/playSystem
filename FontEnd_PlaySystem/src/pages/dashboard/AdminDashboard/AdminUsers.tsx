@@ -4,27 +4,17 @@ import api from "../../../services/api/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { ClientDetailsModal } from "../../../components/modals";
+import { UserList } from "../../../components/users";
+import { Cliente } from "../../../models/Cliente";
 
 import "./adminUsers.scss";
-
-interface Cliente {
-  id: string;
-  nombreEmpresa: string;
-  descripcion: string;
-  emailContacto: string;
-  telefonoContacto: string;
-  direccionPrincipal: string;
-  nit: string;
-  observaciones: string;
-  user: {
-    userName: string;
-  };
-}
 
 const AdminUsers = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+  const [filterType, setFilterType] = useState<keyof Cliente | "all">("all");
+  const [roleFilter, setRoleFilter] = useState<string>("CLIENT"); // Filtro por rol
 
   const token = useSelector((state: RootState) => state.user.token);
 
@@ -44,69 +34,54 @@ const AdminUsers = () => {
     };
     fetchClientes();
   }, [token]);
-  // Función para abrir el modal con los detalles del cliente
+
   const handleClienteClick = (cliente: Cliente) => {
     setSelectedCliente(cliente);
   };
 
-  // Función para cerrar el modal
   const handleCloseModal = () => {
     setSelectedCliente(null);
   };
-  // Función para manejar la búsqueda
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    // Aquí puedes implementar la lógica de filtrado
   };
 
-  // Función para manejar el botón "Nuevo Cliente"
-  const handleNuevoCliente = () => {
-    // Lógica para agregar un nuevo cliente
-    console.log("Nuevo Cliente");
+  const handleFilterChange = (filterType: keyof Cliente | "all") => {
+    setFilterType(filterType);
   };
 
-  // Filtrar clientes antes de mapearlos
-  const filteredClientes = Array.isArray(clientes)
-    ? clientes.filter((cliente) =>
-        cliente.nombreEmpresa.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : [];
+  const handleRoleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoleFilter(e.target.value);
+  };
+
+  const filteredClientes = clientes.filter((cliente) => {
+    if (roleFilter !== "all" && cliente.user.role.name !== roleFilter)
+      return false;
+
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+
+    if (filterType === "all") {
+      return Object.values(cliente).some((value) =>
+        String(value).toLowerCase().includes(query),
+      );
+    }
+
+    return String(cliente[filterType]).toLowerCase().includes(query);
+  });
 
   return (
     <div className="containerAdminUsers">
-      <DynamicHeader
-        title="Clientes"
-        searchPlaceholder="Buscar cliente..."
-        primaryButtonText="Nuevo Cliente"
-        onSearch={handleSearch} // Maneja la búsqueda
-        onPrimaryButtonClick={handleNuevoCliente}
+      <DynamicHeader title="Clientes" />
+      <UserList
+        users={filteredClientes}
+        onUserClick={handleClienteClick}
+        onSearch={handleSearch}
+        onFilterChange={handleFilterChange}
+        roleFilter={roleFilter} // Pasar el estado del filtro de roles
+        onRoleFilterChange={handleRoleFilterChange} // Pasar la función para cambiar el filtro de roles
       />
-      <div className="containerAdminUsers_list">
-        {filteredClientes.map((cliente) => (
-          <div
-            key={cliente.id}
-            className="containerAdminUsers_card"
-            onClick={() => handleClienteClick(cliente)}
-          >
-            <div className="containerAdminUsers_card-header">
-              <figure>
-                <img />
-              </figure>
-              <div>
-                <h3>{cliente.nombreEmpresa}</h3>
-                <span>{cliente.nit}</span>
-              </div>
-            </div>
-            <div className="containerAdminUsers_card-content">
-              <p>{cliente.descripcion}</p>
-              <div className="containerAdminUsers_card-content-buttons">
-                <p>{cliente.telefonoContacto}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>{" "}
-      {/* Mostrar el modal si hay un cliente seleccionado */}
       {selectedCliente && (
         <ClientDetailsModal
           cliente={selectedCliente}

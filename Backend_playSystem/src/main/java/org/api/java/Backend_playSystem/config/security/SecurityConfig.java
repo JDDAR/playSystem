@@ -29,6 +29,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/login").permitAll()
             .requestMatchers("/api/users/register").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/users/userList").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/clientes/**").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/dependencias/**").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/enums/**").hasAuthority("ROLE_ADMINISTRATOR")

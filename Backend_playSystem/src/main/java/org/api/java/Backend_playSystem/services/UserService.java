@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
   }
 
   // Obteniendo usuarios
-  public List<User> findAll() {
+  public List<User> userList() {
     return userRepository.findAll();
   }
 

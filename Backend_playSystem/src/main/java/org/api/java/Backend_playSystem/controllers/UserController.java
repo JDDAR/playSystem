@@ -34,9 +34,10 @@ public class UserController {
     this.authService = authService;
   }
 
-  @GetMapping
+  @PreAuthorize("hasRole('ADMINISTRATOR')")
+  @GetMapping("/userList")
   public ResponseEntity<List<User>> getAllUsers() {
-    List<User> users = userService.findAll();
+    List<User> users = userService.userList();
     return ResponseEntity.ok(users);
   }
 

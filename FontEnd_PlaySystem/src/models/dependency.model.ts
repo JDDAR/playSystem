@@ -8,6 +8,7 @@ import {
 } from "./enums.model";
 
 export interface Tienda {
+  idDependencia: string;
   puntoVenta: string;
   direccion: string;
   antenas: string;

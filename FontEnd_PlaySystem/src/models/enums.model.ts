@@ -1,5 +1,6 @@
 export type EnumValues<T extends string> = T[];
 
+// Tipos base
 export type CiudadEnum = string;
 export type EnviosEnum = string;
 export type DocumentoEnum = string;

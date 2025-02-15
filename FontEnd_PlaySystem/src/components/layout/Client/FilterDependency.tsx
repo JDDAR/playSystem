@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Tienda } from "../../../models/dependency.model";
 import "./filterDependency.scss";
-import NewdependencyButton from "../../NewdependencyButton/NewDependencyButton";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../../features/ui/uiSlice";
+import NewDependency from "../../Newdependency/NewDependency";
 
 interface FilterDependencyProps {
   onSearch: (query: string) => void;
@@ -15,6 +17,8 @@ const FilterDependency = ({
   idClient, // Recibir el idClient
 }: FilterDependencyProps) => {
   const [localSearch, setLocalSearch] = useState("");
+  const dispatch = useDispatch();
+
   const [selectedFilter, setSelectedFilter] = useState<keyof Tienda | "all">(
     "all",
   );
@@ -29,6 +33,21 @@ const FilterDependency = ({
     const value = e.target.value as keyof Tienda | "all";
     setSelectedFilter(value);
     onFilterChange(value);
+  };
+  const openModalForm = (idClient: string) => {
+    dispatch(
+      openModal({
+        title: "Nueva Tienda",
+        message: "",
+        variant: "modalForms",
+        autoClose: false,
+        content: <NewDependency idClient={idClient} />,
+        onConfirm: undefined,
+        confirmText: "Aceptar",
+        cancelText: "Cancelar",
+        extraClasses: "modalMedium",
+      }),
+    );
   };
 
   return (
@@ -50,8 +69,7 @@ const FilterDependency = ({
           <option value="envio">Estado de envío</option>
           <option value="region">Región</option>
         </select>
-        {/* Usar el componente NewTiendaButton */}
-        <NewdependencyButton idClient={idClient} />
+        <button onClick={() => openModalForm(idClient)}>Nueva tienda</button>
       </div>
     </div>
   );
