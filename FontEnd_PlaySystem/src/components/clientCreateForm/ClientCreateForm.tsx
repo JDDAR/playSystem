@@ -5,6 +5,8 @@ import { openModal } from "../../features/ui/uiSlice";
 import api from "../../services/api/api";
 import NewDependency from "../Newdependency/NewDependency";
 
+import "./crientCreateForm.scss";
+
 interface ClientCreateFormProps {
   userId: string;
   userName: string;
@@ -75,18 +77,16 @@ const ClientCreateForm = ({ userId, userName }: ClientCreateFormProps) => {
   };
 
   return (
-    <div>
+    <div className="containerClientForm">
       {!showDependencyForm ? (
         <form onSubmit={(e) => handleSubmit(e, false)} className="client-form">
           <fieldset>
-            <legend>Registrar Cliente</legend>
-
-            <p>
-              <strong>ID del Usuario:</strong> {userId}
-            </p>
-            <p>
-              <strong>Nombre del Usuario:</strong> {userName}
-            </p>
+            <div className="containerClientForm_headerForm">
+              <legend>Registrar Cliente</legend>
+              <p>
+                <strong>Asignando cliente a : </strong> {userName}
+              </p>
+            </div>
 
             <label>
               Nombre de la Empresa:
@@ -109,7 +109,9 @@ const ClientCreateForm = ({ userId, userName }: ClientCreateFormProps) => {
                 required
               />
             </label>
-
+          </fieldset>
+          <fieldset>
+            <legend>Contacto principal</legend>
             <label>
               Teléfono de Contacto:
               <input
@@ -142,7 +144,9 @@ const ClientCreateForm = ({ userId, userName }: ClientCreateFormProps) => {
                 required
               />
             </label>
-
+          </fieldset>
+          <fieldset>
+            <legend>Mas datos</legend>
             <label>
               Observaciones:
               <textarea

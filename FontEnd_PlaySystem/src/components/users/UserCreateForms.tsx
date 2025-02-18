@@ -7,6 +7,8 @@ import { RoleEnum } from "../../models/enums.model";
 import useEnums from "../../services/api/enumsService";
 import ClientCreateForm from "../clientCreateForm/ClientCreateForm";
 
+import "./userCreateForms.scss";
+
 interface UserFormValues {
   userName: string;
   lastName: string;
@@ -129,7 +131,7 @@ const UserCreateForms = () => {
   return (
     <div>
       {!showClientForm ? (
-        <form onSubmit={handleSubmit} className="user-form">
+        <form onSubmit={handleSubmit} className="containerUserForm">
           {/* Formulario de creación de usuario */}
           <fieldset>
             <legend>Información Básica</legend>
@@ -143,7 +145,6 @@ const UserCreateForms = () => {
                 required
               />
             </label>
-
             <label>
               Apellidos:
               <input
@@ -180,17 +181,6 @@ const UserCreateForms = () => {
 
           <fieldset>
             <legend>Datos de Seguridad</legend>
-            <label>
-              Contraseña:
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                minLength={8}
-                required
-              />
-            </label>
 
             <label>
               Tipo de documento:
@@ -216,6 +206,17 @@ const UserCreateForms = () => {
                 name="identificationNumber"
                 value={formData.identificationNumber}
                 onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
+              Contraseña:
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                minLength={8}
                 required
               />
             </label>
