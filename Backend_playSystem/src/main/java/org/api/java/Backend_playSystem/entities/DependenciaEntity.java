@@ -1,13 +1,9 @@
 package org.api.java.Backend_playSystem.entities;
 
 import java.time.LocalDateTime;
-
 import org.api.java.Backend_playSystem.enums.*;
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -68,5 +64,4 @@ public class DependenciaEntity {
 
   @Enumerated(EnumType.STRING)
   private TipoEstructuraEnum tipoEstructura;
-
 }

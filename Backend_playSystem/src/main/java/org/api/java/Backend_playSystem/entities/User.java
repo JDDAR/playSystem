@@ -11,9 +11,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
