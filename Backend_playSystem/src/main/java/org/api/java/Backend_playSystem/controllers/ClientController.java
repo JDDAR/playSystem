@@ -3,29 +3,22 @@ package org.api.java.Backend_playSystem.controllers;
 import java.util.List;
 
 import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaRequestDto;
-import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaResponseDto;
 import org.api.java.Backend_playSystem.dto.cliente.ClientRequestDto;
+import org.api.java.Backend_playSystem.dto.cliente.ClientResponseDto;
 import org.api.java.Backend_playSystem.entities.ClientEntity;
 import org.api.java.Backend_playSystem.services.ClientService;
 import org.api.java.Backend_playSystem.services.DependenciaService;
-import org.api.java.Backend_playSystem.services.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clientes")
 public class ClientController {
 
-  private static final Logger log = LoggerFactory.getLogger(UserService.class);
+  private static final Logger log = LoggerFactory.getLogger(ClientController.class); // Ajusté el logger a esta clase
 
   private final ClientService clientService;
   private final DependenciaService dependenciaService;
@@ -46,9 +39,7 @@ public class ClientController {
   public ResponseEntity<?> createClient(@RequestBody ClientRequestDto clientRequestDto) {
     try {
       log.info("Intentando crear cliente para usuario ID: {}", clientRequestDto.getUserId());
-
       ClientEntity newClient = clientService.createClient(clientRequestDto);
-
       log.info("Cliente creado exitosamente: {}", newClient.getId());
       return ResponseEntity.ok(newClient);
     } catch (IllegalArgumentException e) {
@@ -63,5 +54,22 @@ public class ClientController {
   @GetMapping("/{id}/dependencias")
   public ResponseEntity<List<DependenciaRequestDto>> getDependenciasByCliente(@PathVariable String id) {
     return ResponseEntity.ok(dependenciaService.getDependenciaByClientId(id));
+  }
+
+  @PreAuthorize("hasRole('ADMINISTRATOR')")
+  @GetMapping("/search")
+  public ResponseEntity<List<ClientResponseDto>> searchClients(@RequestParam String name) {
+    try {
+      log.info("Buscando clientes con nombre: {}", name);
+      List<ClientResponseDto> clients = clientService.searchClientsByName(name);
+      if (clients.isEmpty()) {
+        log.info("No se encontraron clientes para el nombre: {}", name);
+        return ResponseEntity.noContent().build();
+      }
+      return ResponseEntity.ok(clients);
+    } catch (Exception e) {
+      log.error("Error al buscar clientes: ", e);
+      return ResponseEntity.internalServerError().body(null);
+    }
   }
 }

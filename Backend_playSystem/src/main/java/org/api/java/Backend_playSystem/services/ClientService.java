@@ -1,8 +1,10 @@
 package org.api.java.Backend_playSystem.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.api.java.Backend_playSystem.dto.cliente.ClientRequestDto;
+import org.api.java.Backend_playSystem.dto.cliente.ClientResponseDto;
 import org.api.java.Backend_playSystem.enums.*;
 import org.api.java.Backend_playSystem.entities.ClientEntity;
 import org.api.java.Backend_playSystem.entities.User;
@@ -47,6 +49,24 @@ public class ClientService {
     cliente.setUser(user);
 
     return clientRepository.save(cliente);
+  }
+
+  public List<ClientResponseDto> searchClientsByName(String name) {
+    List<ClientEntity> clients = clientRepository.findByNombreEmpresaContainingIgnoreCase(name);
+    return clients.stream()
+        .map(this::convertToDto)
+        .collect(Collectors.toList());
+  }
+
+  private ClientResponseDto convertToDto(ClientEntity client) {
+    ClientResponseDto dto = new ClientResponseDto();
+    dto.setId(client.getId());
+    dto.setNombreEmpresa(client.getNombreEmpresa());
+    dto.setNit(client.getNit());
+    dto.setTelefonoContacto(client.getTelefonoContacto());
+    dto.setEmailContacto(client.getEmailContacto());
+    // Agrega más campos según necesites exponer al frontend
+    return dto;
   }
 
 }
