@@ -34,7 +34,7 @@
     display: flex;
     padding: 25px;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: $colorBgPrimary;
 
     .left-container {
@@ -46,17 +46,20 @@
       display: flex;
       flex-direction: column;
       gap: 25px;
+
       &__Header {
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid $colorLine;
         padding-bottom: 25px;
+
         figure {
           width: 100px;
           height: 100px;
           border: 1px solid rgba($colorSecondary, 0.4);
           border-radius: 50%;
           padding: 10px;
+
           img {
             background: darkblue;
             width: 100%;
@@ -64,33 +67,39 @@
             border-radius: 50%;
           }
         }
+
         &_right {
           display: flex;
           flex-direction: column;
           text-align: right;
           line-height: 180%;
+
           h4 {
             color: rgba($colorPrimary, 0.5);
             font-weight: 500;
           }
         }
       }
+
       &__infoCliente {
         display: flex;
         flex-direction: column;
         gap: 25px;
         border-bottom: 1px solid $colorLine;
         padding-bottom: 25px;
+
         p {
           display: flex;
           flex-direction: column-reverse;
           font-size: 0.9;
+
           strong {
             font-size: 0.8rem;
             color: rgba($colorPrimary, 1);
           }
         }
       }
+
       &__footer {
         font-size: 0.9rem;
       }
@@ -118,6 +127,7 @@
           align-items: center;
           background: $colorBgPrimary;
           gap: 8px;
+
           &:hover {
             background-color: $colorPrimary;
             border-radius: 50px;

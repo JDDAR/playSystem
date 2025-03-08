@@ -39,9 +39,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     &-header {
       display: flex;
       justify-content: space-between;
+
       figure {
         width: 80px;
         height: 80px;
@@ -49,15 +51,18 @@
         @include gradientBg($colorPrimary, $colorSecondary);
       }
     }
+
     &-content {
       width: 100%;
       margin-top: 25px;
       display: flex;
       flex-direction: column;
       gap: 15px;
+
       p {
         font-size: 0.9rem;
       }
+
       &-buttons {
         border-top: 1px solid $colorLine;
         padding-top: 15px;

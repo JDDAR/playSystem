@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/clientes")
 public class ClientController {
 
-  private static final Logger log = LoggerFactory.getLogger(ClientController.class); // Ajusté el logger a esta clase
+  private static final Logger log = LoggerFactory.getLogger(ClientController.class); // Looger para esta clase
 
   private final ClientService clientService;
   private final DependenciaService dependenciaService;

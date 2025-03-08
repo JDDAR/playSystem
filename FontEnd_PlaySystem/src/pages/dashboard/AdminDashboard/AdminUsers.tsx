@@ -8,6 +8,7 @@ import { UserList } from "../../../components/users";
 import { Cliente } from "../../../models/Cliente";
 
 import "./adminUsers.scss";
+import axios from "axios";
 
 const AdminUsers = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -19,6 +20,7 @@ const AdminUsers = () => {
   const token = useSelector((state: RootState) => state.user.token);
 
   useEffect(() => {
+    console.log("Token actual:", token);
     const fetchClientes = async () => {
       try {
         const response = await api.get("/clientes/listaClientes", {
@@ -26,10 +28,28 @@ const AdminUsers = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Respuesta del back", response.data);
-        setClientes(response.data);
+        console.log("Respuesta completa del back:", response);
+        console.log("Datos crudos (response.data):", response.data);
+
+        // Acceder a la propiedad "data" y parsear el string JSON
+        const rawData = response.data; // Esto es el string JSON
+        const parsedData = typeof rawData === "string" ? JSON.parse(rawData) : rawData;
+        const data = Array.isArray(parsedData) ? parsedData : [];
+
+        console.log("Datos parseados (parsedData):", parsedData);
+        console.log("Datos procesados (data):", data);
+        setClientes(data);
+        console.log("Clientes actualizados:", data);
       } catch (error) {
-        console.error("Error al obtener la lista de clientes:", error);
+        console.error("Error completo:", error);
+        if (axios.isAxiosError(error)) {
+          console.error("Detalles del error de Axios:", {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status,
+          });
+        }
+        setClientes([]);
       }
     };
     fetchClientes();
@@ -55,7 +75,7 @@ const AdminUsers = () => {
     setRoleFilter(e.target.value);
   };
 
-  const filteredClientes = clientes.filter((cliente) => {
+  const filteredClientes = Array.isArray(clientes) ? clientes.filter((cliente) => {
     if (roleFilter !== "all" && cliente.user.role.name !== roleFilter)
       return false;
 
@@ -69,7 +89,7 @@ const AdminUsers = () => {
     }
 
     return String(cliente[filterType]).toLowerCase().includes(query);
-  });
+  }) : [];
 
   return (
     <div className="containerAdminUsers">
