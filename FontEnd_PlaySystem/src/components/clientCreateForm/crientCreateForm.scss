@@ -6,26 +6,43 @@
   &_headerForm {
     margin-bottom: 25px;
     line-height: 150%;
+
     legend {
       font-weight: 600;
     }
   }
+
   form {
-    border: 1px solid red;
-    display: flex;
-    flex-wrap: wrap;
     fieldset {
       display: flex;
       width: 100%;
+      gap: 25px;
       align-items: center;
-      gap: 15px;
       margin-bottom: 25px;
+
       label,
       input,
       select,
       textarea {
         width: 100%;
       }
+
+      legend {
+        font-weight: 600;
+        margin-bottom: 15px;
+        width: 100%;
+        padding-top: 15px;
+        border-top: 1px solid $colorLine;
+      }
     }
+  }
+
+  &_buttons {
+    display: flex;
+    gap: 25px;
+    justify-content: end;
+
+    width: 100%;
+
   }
 }

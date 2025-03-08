@@ -1,0 +1,42 @@
+@use "../../../styles/abstracts/index" as *;
+
+.containerEditDependenciaForm {
+	@include formStyles;
+
+	form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 15px;
+
+		fieldset {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 15px;
+			margin-bottom: 25px;
+			width: 100%;
+
+			legend {
+				font-size: 1rem;
+				font-weight: 600;
+				margin-bottom: 15px;
+				width: 100%;
+			}
+
+			label {
+				flex: 1 1 45%;
+				display: flex;
+				flex-direction: column;
+
+				input,
+				select {
+					width: 100%;
+					padding: 8px;
+					border: 1px solid $colorLine;
+					border-radius: 4px;
+					margin-top: 5px;
+				}
+			}
+		}
+	}
+}

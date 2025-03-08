@@ -44,7 +44,7 @@ const GlobalModal = () => {
             </button>
           )}
           <button
-            className={`${modal.variant}_cancel-button`}
+            className="cancel-button"
             onClick={() => dispatch(closeModal())}
           >
             {modal.cancelText || "Cerrar"}

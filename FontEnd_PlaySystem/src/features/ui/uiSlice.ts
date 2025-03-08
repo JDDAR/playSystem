@@ -4,7 +4,7 @@ type ModalState = {
   isOpen: boolean;
   title: string;
   message: string;
-  variant: "success" | "error" | "info" | "confirm" | "modalForms";
+  variant: "success" | "error" | "info" | "confirm" | "modalForms" | "warning";
   autoClose: boolean;
   content?: React.ReactNode;
   onConfirm?: () => void;

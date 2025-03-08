@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import api from "../../../services/api/api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../app/store";
-import "./dependencyClient.scss";
+import { openModal, closeModal } from "../../../features/ui/uiSlice";
+import api from "../../../services/api/api";
 import { Tienda } from "../../../models/dependency.model";
 import DependencyDetails from "../../dependencyDetails/DependencyDetails";
 import FilterDependency from "./FilterDependency";
+import { FaEllipsisV, FaTrash, FaEdit } from "react-icons/fa";
+import "./dependencyClient.scss";
+import EditDependenciaForm from "./EditDependenciaForm";
 
 interface DependencyClientProps {
   idClient: string;
@@ -17,17 +20,17 @@ const DependencyClient: React.FC<DependencyClientProps> = ({ idClient }) => {
   const [expandedTienda, setExpandedTienda] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<keyof Tienda | "all">("all");
+  const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
   const token = useSelector((state: RootState) => state.user.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!idClient) return;
     const fetchDependency = async () => {
       try {
         const response = await api.get(`/dependencias/${idClient}/tiendas`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Respuesta del Back Dependencias: ", response.data);
         setTiendas(response.data);
@@ -44,7 +47,75 @@ const DependencyClient: React.FC<DependencyClientProps> = ({ idClient }) => {
     setExpandedTienda((prev) => (prev === tiendaId ? null : tiendaId));
   };
 
-  // Función para resaltar coincidencias en el texto
+  const handleDeleteDependencia = (tiendaId: string, nombre: string) => {
+    setMenuOpen(null);
+    dispatch(
+      openModal({
+        title: "Confirmar Eliminación",
+        message: `¿Estás seguro de eliminar la dependencia ${nombre}? Esto eliminará toda su información asociada.`,
+        variant: "warning",
+        autoClose: false,
+        onConfirm: () => {
+          api
+            .delete(`/dependencias/${tiendaId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then(() => {
+              setTiendas((prev) => prev.filter((t) => t.idDependencia !== tiendaId));
+              dispatch(
+                openModal({
+                  title: "Éxito",
+                  message: `Dependencia ${nombre} eliminada exitosamente`,
+                  variant: "success",
+                  autoClose: true,
+                })
+              );
+            })
+            .catch((error) => {
+              console.error("Error al eliminar dependencia:", error);
+              dispatch(
+                openModal({
+                  title: "Error",
+                  message: "No se pudo eliminar la dependencia: " + error.message,
+                  variant: "error",
+                  autoClose: true,
+                })
+              );
+            });
+        },
+        confirmText: "eliminar",
+        cancelText: "cancelar",
+      })
+    );
+  };
+
+  const handleEditDependencia = (tienda: Tienda) => {
+    setMenuOpen(null);
+
+    const updateFormData = (newFormData: Partial<Tienda>) => {
+      // Actualizamos la lista de tiendas con los datos enviados exitosamente
+      setTiendas((prev) =>
+        prev.map((t) => (t.idDependencia === tienda.idDependencia ? { ...t, ...newFormData } : t))
+      );
+    };
+
+    dispatch(
+      openModal({
+        title: "Editar Dependencia",
+        message: "",
+        variant: "modalForms",
+        autoClose: false,
+        content: (
+          <EditDependenciaForm
+            tienda={tienda}
+            onSave={updateFormData} // Pasamos la función para actualizar la lista tras el envío
+          />
+        ),
+        extraClasses: "modalMedium modalLeft",
+      })
+    );
+  };
+
   const highlightMatch = (text: string) => {
     if (!searchQuery) return text;
     const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -55,21 +126,18 @@ const DependencyClient: React.FC<DependencyClientProps> = ({ idClient }) => {
         </span>
       ) : (
         part
-      ),
+      )
     );
   };
 
-  // Filtrado de tiendas según el texto ingresado
   const filteredTiendas = tiendas.filter((tienda) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
-
     if (filterType === "all") {
       return Object.values(tienda).some((value) =>
-        String(value).toLowerCase().includes(query),
+        String(value).toLowerCase().includes(query)
       );
     }
-
     return String(tienda[filterType]).toLowerCase().includes(query);
   });
 
@@ -93,10 +161,7 @@ const DependencyClient: React.FC<DependencyClientProps> = ({ idClient }) => {
           className="containerDependencyClient_cards"
         >
           <div className="containerDependencyClient_card">
-            <p
-              id="numeroLocal"
-              className="containerDependencyClient_card-local"
-            >
+            <p className="containerDependencyClient_card-local" id="numeroLocal">
               <strong>{highlightMatch(tienda.numLocal)}</strong>
               <span>N° Local</span>
             </p>
@@ -120,10 +185,42 @@ const DependencyClient: React.FC<DependencyClientProps> = ({ idClient }) => {
               <strong>{highlightMatch(tienda.tamanoTienda)}</strong>
               <span>Tamaño Tienda</span>
             </p>
-            <button onClick={() => toggleDetails(tienda.idDependencia)}>
-              Detalles
-              <span>{expandedTienda === tienda.idDependencia ? "▲" : "▼"}</span>
-            </button>
+            <div className="card-actions">
+              <button onClick={() => toggleDetails(tienda.idDependencia)}>
+                Detalles
+                <span>{expandedTienda === tienda.idDependencia ? "▲" : "▼"}</span>
+              </button>
+              <div className="menu-container">
+                <span
+                  className="menu-icon"
+                  onClick={() =>
+                    setMenuOpen((prev) =>
+                      prev === tienda.idDependencia ? null : tienda.idDependencia
+                    )
+                  }
+                >
+                  <FaEllipsisV />
+                </span>
+                {menuOpen === tienda.idDependencia && (
+                  <ul className="dropdown-menu">
+                    <li>
+                      <span onClick={() => handleEditDependencia(tienda)}>
+                        <FaEdit /> Editar Dependencia
+                      </span>
+                    </li>
+                    <li>
+                      <span
+                        onClick={() =>
+                          handleDeleteDependencia(tienda.idDependencia, tienda.puntoVenta)
+                        }
+                      >
+                        <FaTrash /> Eliminar Dependencia
+                      </span>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </div>
           </div>
           {expandedTienda === tienda.idDependencia && (
             <DependencyDetails tienda={tienda} />

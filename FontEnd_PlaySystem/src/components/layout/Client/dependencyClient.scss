@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: space-between;
   }
+
   .highlight {
     background-color: greenyellow;
     font-weight: bold;
@@ -20,10 +21,12 @@
   &_cards {
     padding: 15px;
     border-radius: 12px;
+
     &:hover {
       background: $colorBgSecondary;
     }
   }
+
   &_card {
     height: 80px;
     align-items: center;
@@ -38,28 +41,84 @@
       width: 100%;
       margin-right: 15px;
       padding-right: 15px;
-      width: 100%;
       display: flex;
       flex-direction: column;
       border-right: 1px solid $colorLine;
+
       strong {
         font-size: 0.9rem;
-        font-weight: 1.2rem;
-        font-weight: 600;
+        font-weight: 600; // Corregí "font-weight: 1.2rem" que es inválido
       }
+
       span {
         font-size: 0.7rem;
       }
     }
-    button {
-      border-radius: 50px;
-      padding: 5px 15px;
+
+    .card-actions {
       display: flex;
-      gap: 5px;
       align-items: center;
-      background: $colorPrimary;
-      color: $colorBgPrimary;
-      cursor: pointer;
+      gap: 15px;
+
+      button {
+        border-radius: 50px;
+        padding: 5px 15px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        background: $colorPrimary;
+        color: $colorBgPrimary;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .menu-container {
+        position: relative;
+
+        .menu-icon {
+          font-size: 1.2rem;
+          color: $colorPrimary;
+          cursor: pointer;
+          padding: 5px;
+
+          &:hover {
+            color: darken($colorPrimary, 10%);
+          }
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 35px;
+          right: 0;
+
+          background: $colorBgPrimary;
+          border: 1px solid $colorLine;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          list-style: none;
+          padding: 5px 0;
+          margin: 0;
+          z-index: 10;
+          min-width: 180px;
+
+          li {
+            span {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 8px 12px;
+              color: $colorPrimary;
+              cursor: pointer;
+              font-size: 0.9rem;
+
+              &:hover {
+                background: $colorBgSecondary;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

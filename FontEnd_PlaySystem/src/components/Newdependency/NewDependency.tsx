@@ -7,6 +7,8 @@ import { RootState } from "../../app/store";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../features/ui/uiSlice";
 
+
+
 interface NewDependencyProps {
   idClient: string;
   nombreEmpresa: string;
@@ -103,168 +105,165 @@ const NewDependency = ({ idClient, onTiendaAdded }: NewDependencyProps) => {
       <form onSubmit={handleSubmit} className="containerForms">
         <div className="containerForms_contacto">
           <fieldset>
-            <label>N° local</label>
-            <input
-              type="text"
-              name="numLocal"
-              placeholder="Número Local"
-              onChange={handleChange}
-              required
-            />
+            <label>N° local
+              <input
+                type="text"
+                name="numLocal"
+                placeholder="Número Local"
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>Punto de Venta
+              <input
+                type="text"
+                name="puntoVenta"
+                placeholder="Punto de Venta"
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>Dirección
+              <input
+                type="text"
+                name="direccion"
+                placeholder="Dirección"
+                onChange={handleChange}
+                required
+              />
+            </label>
           </fieldset>
           <fieldset>
-            <label>Punto de Venta</label>
-            <input
-              type="text"
-              name="puntoVenta"
-              placeholder="Punto de Venta"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Dirección</label>
-            <input
-              type="text"
-              name="direccion"
-              placeholder="Dirección"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Telefono</label>
-            <input
-              type="text"
-              name="tels"
-              placeholder="Teléfonos"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Horario</label>
+            <label>Telefono
+              <input
+                type="text"
+                name="tels"
+                placeholder="Teléfonos"
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>Horario
+              <select name="horario" onChange={handleChange} required>
+                <option value="">Seleccione Horario</option>
+                {horarios.map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>Ciudad
 
-            <select name="horario" onChange={handleChange} required>
-              <option value="">Seleccione Horario</option>
-              {horarios.map((h) => (
-                <option key={h} value={h}>
-                  {h}
-                </option>
-              ))}
-            </select>
-          </fieldset>
-          <fieldset>
-            <label>Ciudad</label>
-
-            <select name="ciudad" onChange={handleChange} required>
-              <option value="">Seleccione Ciudad</option>
-              {ciudades.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </fieldset>
-          <fieldset>
-            <label>Región</label>
-            <select name="region" onChange={handleChange} required>
-              <option value="">Seleccione Región</option>
-              {regiones.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
+              <select name="ciudad" onChange={handleChange} required>
+                <option value="">Seleccione Ciudad</option>
+                {ciudades.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>Región
+              <select name="region" onChange={handleChange} required>
+                <option value="">Seleccione Región</option>
+                {regiones.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </label>
           </fieldset>
         </div>
 
         <div className="containerForms_features">
           <fieldset>
-            <label>Antenas</label>
-            <input
-              type="text"
-              name="antenas"
-              placeholder="Antenas"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Cabezotes</label>
-            <input
-              type="text"
-              name="cabezotes"
-              placeholder="Cabezotes"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Área</label>
-            <input
-              type="text"
-              name="area"
-              placeholder="Área"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Tamaño Tienda</label>
-            <select name="tamanoTienda" onChange={handleChange} required>
-              <option value="">Seleccione Tamaño</option>
-              {tamanos.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            <label>Antenas
+              <input
+                type="text"
+                name="antenas"
+                placeholder="Antenas"
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>Cabezotes
+              <input
+                type="text"
+                name="cabezotes"
+                placeholder="Cabezotes"
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>Área
+              <input
+                type="text"
+                name="area"
+                placeholder="Área"
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>Tamaño Tienda
+              <select name="tamanoTienda" onChange={handleChange} required>
+                <option value="">Seleccione Tamaño</option>
+                {tamanos.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </label>
           </fieldset>
         </div>
         <div className="containerForms_advertising">
           <fieldset>
-            <label>Instalador</label>
-            <input
-              type="text"
-              name="instalador"
-              placeholder="Instalador"
-              onChange={handleChange}
-              required
-            />
-          </fieldset>
-          <fieldset>
-            <label>Tipo de Estructura</label>
-            <select name="tipoEstructura" onChange={handleChange} required>
-              <option value="">Seleccione Tipo de Estructura</option>
-              {estructuras.map((te) => (
-                <option key={te} value={te}>
-                  {te}
-                </option>
-              ))}
-            </select>
-          </fieldset>
-          <fieldset>
-            <label>Prioridad</label>
-            <select name="prioridad" onChange={handleChange} required>
-              <option value="">Seleccione Prioridad</option>
-              {prioridades.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
-          </fieldset>
-          <fieldset>
-            <label>Punto de Venta</label>
-            <select name="envio" onChange={handleChange} required>
-              <option value="">Seleccione Envío</option>
-              {envios.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
+            <label>Instalador
+              <input
+                type="text"
+                name="instalador"
+                placeholder="Instalador"
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>Tipo de Estructura
+              <select name="tipoEstructura" onChange={handleChange} required>
+                <option value="">Seleccione Tipo de Estructura</option>
+                {estructuras.map((te) => (
+                  <option key={te} value={te}>
+                    {te}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>Prioridad
+              <select name="prioridad" onChange={handleChange} required>
+                <option value="">Seleccione Prioridad</option>
+                {prioridades.map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>Punto de Venta
+              <select name="envio" onChange={handleChange} required>
+                <option value="">Seleccione Envío</option>
+                {envios.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </select>
+            </label>
           </fieldset>
         </div>
         <button type="submit">Agregar</button>

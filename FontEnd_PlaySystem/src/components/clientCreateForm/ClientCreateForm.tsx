@@ -80,13 +80,13 @@ const ClientCreateForm = ({ userId, userName }: ClientCreateFormProps) => {
     <div className="containerClientForm">
       {!showDependencyForm ? (
         <form onSubmit={(e) => handleSubmit(e, false)} className="client-form">
+          <div className="containerClientForm_headerForm">
+            <legend>Registrar Cliente</legend>
+            <p>
+              <strong>Asignando cliente a : </strong> {userName}
+            </p>
+          </div>
           <fieldset>
-            <div className="containerClientForm_headerForm">
-              <legend>Registrar Cliente</legend>
-              <p>
-                <strong>Asignando cliente a : </strong> {userName}
-              </p>
-            </div>
 
             <label>
               Nombre de la Empresa:
@@ -165,11 +165,14 @@ const ClientCreateForm = ({ userId, userName }: ClientCreateFormProps) => {
               />
             </label>
 
+          </fieldset>
+          <div className="containerClientForm_buttons">
+
             <button type="submit">Guardar sin agregar dependencia</button>
             <button type="button" onClick={(e) => handleSubmit(e, true)}>
               Agregar dependencia
             </button>
-          </fieldset>
+          </div>
         </form>
       ) : (
         <NewDependency

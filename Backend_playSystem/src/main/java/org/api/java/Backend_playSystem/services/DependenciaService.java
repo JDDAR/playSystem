@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaRequestDto;
+import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaResponseDto;
+import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaUpdateDto;
 import org.api.java.Backend_playSystem.entities.ClientEntity;
 import org.api.java.Backend_playSystem.entities.DependenciaEntity;
 import org.api.java.Backend_playSystem.repositories.ClientRepository;
@@ -56,8 +58,6 @@ public class DependenciaService {
     return dependenciaRepository.save(nuevaDependencia);
   }
 
-  // Obteniendo la lista de dependencias asociadas a un cliente:
-
   public List<DependenciaRequestDto> getDependenciaByClientId(String clienteId) {
     List<DependenciaEntity> dependencias = dependenciaRepository.findByClienteId(clienteId);
     return dependencias.stream()
@@ -66,7 +66,7 @@ public class DependenciaService {
             dependencia.getNumLocal(),
             dependencia.getPuntoVenta(),
             dependencia.getDireccion(),
-            dependencia.getCliente().getId(), // Obtener el ID del cliente
+            dependencia.getCliente().getId(),
             dependencia.getTels(),
             dependencia.getInstalador(),
             dependencia.getEnt(),
@@ -86,6 +86,51 @@ public class DependenciaService {
             dependencia.getTamanoTienda(),
             dependencia.getTipoEstructura(),
             dependencia.getFechaCreacion()))
+        .collect(Collectors.toList());
+  }
+
+  @Transactional
+  public DependenciaEntity actualizarDependencia(String dependenciaId, DependenciaUpdateDto dto) {
+    DependenciaEntity dependencia = dependenciaRepository.findById(dependenciaId)
+        .orElseThrow(() -> new RuntimeException("Dependencia no encontrada"));
+
+    // No cambiamos el cliente ni la fecha de creación
+    dependencia.setNumLocal(dto.getNumLocal());
+    dependencia.setPuntoVenta(dto.getPuntoVenta());
+    dependencia.setDireccion(dto.getDireccion());
+    dependencia.setTels(dto.getTels());
+    dependencia.setInstalador(dto.getInstalador());
+    dependencia.setEnt(dto.getEnt());
+    dependencia.setParqueadero(dto.getParqueadero());
+    dependencia.setCenefa(dto.getCenefa());
+    dependencia.setBanderinesExternos(dto.getBanderinesExternos());
+    dependencia.setVinilosVidrios(dto.getVinilosVidrios());
+    dependencia.setPendones(dto.getPendones());
+    dependencia.setAntenas(dto.getAntenas());
+    dependencia.setCabezotes(dto.getCabezotes());
+    dependencia.setArea(dto.getArea());
+    dependencia.setHorario(dto.getHorario());
+    dependencia.setCiudad(dto.getCiudad());
+    dependencia.setRegion(dto.getRegion());
+    dependencia.setPrioridad(dto.getPrioridad());
+    dependencia.setEnvio(dto.getEnvio());
+    dependencia.setTamanoTienda(dto.getTamanoTienda());
+    dependencia.setTipoEstructura(dto.getTipoEstructura());
+
+    return dependenciaRepository.save(dependencia);
+  }
+
+  @Transactional
+  public void eliminarDependencia(String dependenciaId) {
+    DependenciaEntity dependencia = dependenciaRepository.findById(dependenciaId)
+        .orElseThrow(() -> new RuntimeException("Dependencia no encontrada"));
+    dependenciaRepository.delete(dependencia);
+  }
+
+  public List<DependenciaResponseDto> getDependenciesByClientId(String clientId) {
+    List<DependenciaEntity> dependencies = dependenciaRepository.findByClienteId(clientId);
+    return dependencies.stream()
+        .map(DependenciaResponseDto::new) // Usamos el constructor que mapea la entidad
         .collect(Collectors.toList());
   }
 }
