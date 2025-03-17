@@ -14,7 +14,7 @@
     background: $colorBgSecondary;
     padding: 2rem;
     position: absolute;
-    border-radius: 8px;
+    border-radius: 12px;
 
 
     @include cardShadow;
@@ -82,6 +82,30 @@
 
     }
   }
+}
+
+.modalLarge {
+  position: fixed;
+  margin-top: 80px;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  @include glassBlur($colorPrimary, 0.2, 1.5px);
+
+  .modal-content {
+    z-index: 2000;
+    background: $colorBgPrimary;
+    padding: 2rem;
+    position: absolute;
+    border-radius: 25px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    right: 0;
+  }
+
 }
 
 .modalMedium {

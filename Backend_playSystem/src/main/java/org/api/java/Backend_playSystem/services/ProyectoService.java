@@ -1,9 +1,6 @@
 package org.api.java.Backend_playSystem.services;
 
-import java.util.List;
-
 import org.api.java.Backend_playSystem.dto.Dependencias.DependenciaResponseDto;
-import org.api.java.Backend_playSystem.dto.Proyecto.ProyectoRequestDto;
 import org.api.java.Backend_playSystem.dto.Proyecto.ProyectoResponseDto;
 import org.api.java.Backend_playSystem.entities.ClientEntity;
 import org.api.java.Backend_playSystem.entities.DependenciaEntity;
@@ -13,67 +10,78 @@ import org.api.java.Backend_playSystem.enums.EstadoProjectEnum;
 import org.api.java.Backend_playSystem.repositories.ClientRepository;
 import org.api.java.Backend_playSystem.repositories.DependenciaRepository;
 import org.api.java.Backend_playSystem.repositories.ProyectoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class ProyectoService {
 
-  private final ProyectoRepository proyectoRepository;
-  private final ClientRepository clientRepository;
-  private final DependenciaRepository dependenciaRepository;
+  @Autowired
+  private ProyectoRepository proyectoRepository;
 
-  public ProyectoService(ProyectoRepository proyectoRepository,
-      ClientRepository clientRepository,
-      DependenciaRepository dependenciaRepository) {
-    this.proyectoRepository = proyectoRepository;
-    this.clientRepository = clientRepository;
-    this.dependenciaRepository = dependenciaRepository;
-  }
+  @Autowired
+  private ClientRepository clientRepository;
 
-  public ProyectoResponseDto crearProyecto(ProyectoRequestDto proyectoDto) {
-    ClientEntity cliente = clientRepository.findById(proyectoDto.clienteId())
-        .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
+  @Autowired
+  private DependenciaRepository dependenciaRepository;
 
-    List<DependenciaEntity> dependencias = dependenciaRepository.findAllById(proyectoDto.dependenciasIds());
+  @Transactional
+  public ProyectoResponseDto createProyecto(String clientId, List<String> dependencyIds) {
+    ClientEntity cliente = clientRepository.findById(clientId)
+        .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
-    if (dependencias.isEmpty()) {
-      throw new IllegalArgumentException("Debe seleccionar al menos una dependencia");
-    }
+    String numeroProyecto = generateNumeroProyecto();
 
     ProyectoEntity proyecto = new ProyectoEntity();
-    proyecto.setNumeroProyecto(proyectoDto.numeroProyecto());
+    proyecto.setNumeroProyecto(numeroProyecto);
     proyecto.setCliente(cliente);
-    proyecto.setEstadoProjecto(
-        proyectoDto.estadoProyecto() != null ? proyectoDto.estadoProyecto() : EstadoProjectEnum.COTIZACION);
+    proyecto.setFechaCreacion(LocalDateTime.now());
+    proyecto.setEstadoProyecto(EstadoProjectEnum.PENDIENTE);
 
-    // Crear relaciones con dependencias
-    List<DependencyProjectEntity> dependenciasProyecto = dependencias.stream()
+    List<DependenciaEntity> dependencias = dependenciaRepository.findAllById(dependencyIds);
+    if (dependencias.size() != dependencyIds.size()) {
+      throw new RuntimeException("Algunas dependencias no fueron encontradas");
+    }
+
+    List<DependencyProjectEntity> dependenciasAsociadas = dependencias.stream()
         .map(dep -> {
-          DependencyProjectEntity dp = new DependencyProjectEntity();
-          dp.setProyecto(proyecto);
-          dp.setDependencia(dep);
-          return dp;
-        }).toList();
+          DependencyProjectEntity assoc = new DependencyProjectEntity();
+          assoc.setProyecto(proyecto);
+          assoc.setDependencia(dep);
+          return assoc;
+        })
+        .collect(Collectors.toList());
+    proyecto.setDependenciasAsociadas(dependenciasAsociadas);
 
-    proyecto.setDependenciasAsociadas(dependenciasProyecto);
+    proyectoRepository.save(proyecto);
 
-    ProyectoEntity saved = proyectoRepository.save(proyecto);
-    return mapToProyectoResponseDto(saved);
-  }
+    List<DependenciaResponseDto> dependenciaDtos = dependencias.stream()
+        .map(DependenciaResponseDto::new)
+        .collect(Collectors.toList());
 
-  private ProyectoResponseDto mapToProyectoResponseDto(ProyectoEntity proyecto) {
     return new ProyectoResponseDto(
         proyecto.getIdProject(),
         proyecto.getNumeroProyecto(),
-        proyecto.getCliente().getNombreEmpresa(),
+        cliente.getNombreEmpresa(),
         proyecto.getFechaCreacion(),
-        proyecto.getEstadoProjecto(),
-        proyecto.getDependenciasAsociadas().stream()
-            .map(dp -> new DependenciaResponseDto(dp.getDependencia()))
-            .toList());
+        proyecto.getEstadoProyecto(),
+        dependenciaDtos);
+  }
+
+  @Transactional
+  public void deleteProyecto(String id) {
+    ProyectoEntity proyecto = proyectoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
+    proyectoRepository.delete(proyecto);
+  }
+
+  private String generateNumeroProyecto() {
+    Long count = proyectoRepository.count();
+    return String.format("PRJ-%04d", count + 1);
   }
 }

@@ -14,17 +14,19 @@
   }
 
   &_search {
-    position: relative;
+    position: absolute;
     margin-bottom: 25px;
     display: flex;
     justify-content: end;
-    right: 0;
+    right: 30px;
+    top: -30px;
     gap: 15px;
     width: auto;
     @include formStyles;
   }
 
   &_list {
+    padding-top: 30px;
     display: flex;
     flex-wrap: wrap;
     gap: 25px;

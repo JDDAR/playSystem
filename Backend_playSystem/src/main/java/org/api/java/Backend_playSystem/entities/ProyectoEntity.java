@@ -1,42 +1,35 @@
 package org.api.java.Backend_playSystem.entities;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import org.api.java.Backend_playSystem.enums.EstadoProjectEnum;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.api.java.Backend_playSystem.enums.EstadoProjectEnum;
-
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-
 @Data
-@Getter
 @Entity
 @Table(name = "proyectos")
 public class ProyectoEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "id_project", updatable = false, nullable = false)
   private String idProject;
 
-  @Column(unique = true, nullable = false)
+  @Column(nullable = false, unique = true)
   private String numeroProyecto;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "cliente_id", nullable = false)
   private ClientEntity cliente;
 
   @Column(nullable = false)
-  private LocalDateTime fechaCreacion = LocalDateTime.now();
+  private LocalDateTime fechaCreacion;
 
   @Enumerated(EnumType.STRING)
-  private EstadoProjectEnum estadoProjecto;
-
-  @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<NoteProjectEntity> notas;
-
-  @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<OrderWorkEntity> ordenesTrabajo;
+  @Column(nullable = false)
+  private EstadoProjectEnum estadoProyecto;
 
   @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<DependencyProjectEntity> dependenciasAsociadas;

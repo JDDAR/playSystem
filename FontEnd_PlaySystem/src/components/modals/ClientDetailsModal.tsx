@@ -136,18 +136,20 @@ const ClientDetailsModal: React.FC<ClientDetailsModalProps> = ({ cliente, onClos
             <button onClick={() => setSelectedSection("proyectos")}>
               Proyectos
             </button>
-            <div className="menu-container" style={{ position: "relative", display: "inline-block" }}>
+            <div className="right-container_menu-container" >
               <button onClick={handleMenuToggle} className="menu-button">
                 <HiDotsVertical />
               </button>
               {menuOpen && (
                 <div className="dropdown-menu" style={{
                   position: "absolute",
-                  right: 0,
+                  right: "25px",
+                  top: "35px",
                   backgroundColor: "white",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                   borderRadius: "4px",
                   zIndex: 1000,
+                  width: "200px"
                 }}>
                   <button onClick={handleEditUser} style={{ display: "flex", alignItems: "center", padding: "8px 16px", width: "100%", border: "none", background: "none", cursor: "pointer" }}>
                     <MdEdit style={{ marginRight: "8px" }} /> Editar usuario

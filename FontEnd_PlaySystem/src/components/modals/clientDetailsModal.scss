@@ -109,6 +109,11 @@
       width: 100%;
       padding: 20px;
 
+      &_menu-container {
+        position: relative;
+        border: 1px solid saddlebrown;
+      }
+
       nav {
         display: flex;
         gap: 10px;

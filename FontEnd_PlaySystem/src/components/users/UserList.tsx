@@ -16,11 +16,11 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({
   users = [],
-  onUserClick = () => {},
-  onSearch = () => {},
-  onFilterChange = () => {},
+  onUserClick = () => { },
+  onSearch = () => { },
+  onFilterChange = () => { },
   roleFilter = "all",
-  onRoleFilterChange = () => {},
+  onRoleFilterChange = () => { },
 }) => {
   const dispatch = useDispatch();
   const [localSearch, setLocalSearch] = useState("");
