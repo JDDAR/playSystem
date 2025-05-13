@@ -6,17 +6,16 @@ import org.api.java.Backend_playSystem.entities.DependenciaEntity;
 import org.api.java.Backend_playSystem.enums.*;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DependenciaRequestDto {
+  private String idDependencia;
   private String numLocal;
   private String puntoVenta;
   private String direccion;
@@ -48,6 +47,7 @@ public class DependenciaRequestDto {
       String cabezotes, String area, HorarioEnum horario, CiudadEnum ciudad, RegionEnum region,
       PrioridadEnum prioridad, EnvioEnum envio, TamanoTiendaEnum tamanoTienda,
       TipoEstructuraEnum tipoEstructura, LocalDateTime fechaCreacion) {
+    this.idDependencia = idDependencia;
     this.numLocal = numLocal;
     this.puntoVenta = puntoVenta;
     this.direccion = direccion;

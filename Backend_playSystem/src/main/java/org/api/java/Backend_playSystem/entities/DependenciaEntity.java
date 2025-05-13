@@ -2,16 +2,32 @@ package org.api.java.Backend_playSystem.entities;
 
 import java.time.LocalDateTime;
 
-import org.api.java.Backend_playSystem.enums.*;
+import org.api.java.Backend_playSystem.enums.CiudadEnum;
+import org.api.java.Backend_playSystem.enums.EnvioEnum;
+import org.api.java.Backend_playSystem.enums.HorarioEnum;
+import org.api.java.Backend_playSystem.enums.PrioridadEnum;
+import org.api.java.Backend_playSystem.enums.RegionEnum;
+import org.api.java.Backend_playSystem.enums.TamanoTiendaEnum;
+import org.api.java.Backend_playSystem.enums.TipoEstructuraEnum;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "dependencias")
 public class DependenciaEntity {
@@ -22,6 +38,7 @@ public class DependenciaEntity {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "cliente_id", nullable = false)
+  @JsonBackReference
   private ClientEntity cliente;
 
   @Column(nullable = false)
@@ -68,5 +85,4 @@ public class DependenciaEntity {
 
   @Enumerated(EnumType.STRING)
   private TipoEstructuraEnum tipoEstructura;
-
 }

@@ -10,12 +10,10 @@ body {
   font-family: $fontFamily;
   color: $colorFont;
 
-  @include gradientBg(
-    to right bottom,
+  @include gradientBg(to right bottom,
     $colorSecondary,
     $colorTertiary,
     $colorQuaternary,
     $colorQuinary,
-    $colorSenary
-  );
+    $colorSenary );
 }

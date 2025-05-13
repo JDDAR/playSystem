@@ -1,0 +1,84 @@
+@use "../../styles/abstracts/index" as *;
+
+.containerListUsers {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+
+  .selectRole {
+    display: none;
+  }
+
+  &_search {
+    position: absolute;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: end;
+    right: 30px;
+    top: -30px;
+    gap: 15px;
+    width: auto;
+    @include formStyles;
+  }
+
+  &_list {
+    padding-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: flex-start;
+  }
+
+  &_card {
+    width: 30%;
+    padding: 20px;
+    height: auto;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+
+      figure {
+        width: 80px;
+        height: 80px;
+        border-radius: 50px;
+        @include gradientBg($colorPrimary, $colorSecondary);
+      }
+    }
+
+    &-content {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      &-buttons {
+        border-top: 1px solid $colorLine;
+        padding-top: 15px;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &:hover {
+      background: $colorBgSecondary;
+      border-radius: 12px;
+      transition: 0.3s ease-in-out;
+      @include cardShadow();
+    }
+  }
+}

@@ -3,20 +3,5 @@
 .containerHeaderDinamic {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
-
-  &_contentButtons {
-    display: flex;
-    gap: 25px;
-
-    input {
-      border: none;
-      border-radius: 12px;
-      padding: 5px 15px;
-    }
-
-    button {
-      @include buttonPrimary();
-    }
-  }
+  padding: 25px 25px 0;
 }

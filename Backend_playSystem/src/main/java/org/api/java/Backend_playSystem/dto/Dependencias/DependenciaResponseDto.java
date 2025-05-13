@@ -1,13 +1,15 @@
-package org.api.java.Backend_playSystem.dto.dependencias;
+package org.api.java.Backend_playSystem.dto.Dependencias;
 
 import java.time.LocalDateTime;
 
 import org.api.java.Backend_playSystem.entities.DependenciaEntity;
 import org.api.java.Backend_playSystem.enums.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class DependenciaResponseDto {
   private String idDependencia;
   private String numLocal;

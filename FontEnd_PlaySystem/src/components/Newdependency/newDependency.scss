@@ -1,0 +1,20 @@
+@use "../../styles/abstracts/index" as *;
+
+.containerForms {
+  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $colorLine;
+  @include formStyles;
+
+  &_features,
+  &_contacto,
+  &_advertising {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    border-bottom: 1px solid $colorLine;
+    padding-bottom: 25px;
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+.containerOrderList {
+  margin-top: 20px;
+
+  .containerOrderList_search {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+    }
+
+    select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      min-width: 150px;
+    }
+
+    .selectEstado {
+      min-width: 150px;
+    }
+  }
+
+  .containerOrderList_list {
+    p {
+      text-align: center;
+      color: #666;
+    }
+  }
+}

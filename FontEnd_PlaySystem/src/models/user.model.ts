@@ -3,13 +3,13 @@ export interface UserInfo {
   user: {
     id: string;
     userName: string;
+    lastname: string;
+    email: string;
+    phone: string;
+    address: string;
+    identificationNumber: string;
     image: string;
-    role:
-      | "ADMINISTRATOR"
-      | "CLIENT"
-      | "PRODUCTION"
-      | "LOGISTICS"
-      | "PACKAGING"
-      | "DELIVERY";
+    role: string;
+    documentType: string;
   };
 }

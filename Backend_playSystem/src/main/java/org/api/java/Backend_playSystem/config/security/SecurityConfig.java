@@ -4,10 +4,10 @@ import org.api.java.Backend_playSystem.jwt.JwtAuthenticationFilter;
 import org.api.java.Backend_playSystem.jwt.JwtEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,21 +20,27 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true) // Para usar @PreAuthorize
 public class SecurityConfig {
 
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors(Customizer.withDefaults())
-        .csrf(AbstractHttpConfigurer::disable)
+    http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configurado
+        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF (JWT no lo necesita)
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin estado
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/login").permitAll()
+            .requestMatchers("/api/login").permitAll() // Login público
             .requestMatchers("/api/users/register").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/users/userList").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/clientes/**").hasAuthority("ROLE_ADMINISTRATOR")
             .requestMatchers("/api/dependencias/**").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/enums/**").hasAuthority("ROLE_ADMINISTRATOR")
+            .requestMatchers("/api/proyectos/**").hasAuthority("ROLE_ADMINISTRATOR")
             .anyRequest().authenticated())
-        .httpBasic(Customizer.withDefaults())
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint()))
+        .exceptionHandling(exc -> exc.authenticationEntryPoint(jwtEntryPoint()))
         .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
   }
 
@@ -56,7 +62,6 @@ public class SecurityConfig {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-
     configuration.setAllowedOrigins(List.of("http://localhost:5173"));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
