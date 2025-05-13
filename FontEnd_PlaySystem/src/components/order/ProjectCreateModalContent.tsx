@@ -1,19 +1,19 @@
 import React from "react";
 import { ProyectoResponse } from "../../models/Proyecto";
 import { Tienda } from "../../models/dependency.model";
-import "./projectModalContent.scss";
+import "./projectCreateModalContent.scss";
 
 interface Filter {
 	characteristic: string;
 	value: string;
 }
 
-interface ProjectModalContentProps {
+interface ProjectCreateModalContentProps {
 	proyecto: ProyectoResponse;
 	filters: Filter[]; // Recibimos los filtros seleccionados
 }
 
-const ProjectModalContent: React.FC<ProjectModalContentProps> = ({ proyecto, filters }) => {
+const ProjectCreateModalContent: React.FC<ProjectCreateModalContentProps> = ({ proyecto, filters }) => {
 	// Filtrar las dependencias según los filtros seleccionados y agruparlas
 	const groupedDependencies: { [characteristic: string]: { [value: string]: Tienda[] } } = {};
 
@@ -82,4 +82,4 @@ const ProjectModalContent: React.FC<ProjectModalContentProps> = ({ proyecto, fil
 	);
 };
 
-export default ProjectModalContent;
+export default ProjectCreateModalContent;

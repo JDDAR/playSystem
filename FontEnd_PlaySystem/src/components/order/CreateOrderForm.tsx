@@ -12,7 +12,7 @@ import { Cliente } from "../../models/Cliente";
 import "./createOrderForm.scss";
 import { Tienda } from "../../models/dependency.model";
 import { ProyectoResponse } from "../../models/Proyecto";
-import ProjectModalContent from "./ProjectModalContent";
+import ProjectModalContent from "./ProjectCreateModalContent";
 
 interface Filter {
 	characteristic: string;
@@ -71,11 +71,10 @@ const CreateOrderForm: React.FC = () => {
 		});
 	};
 
-	// Cambio aquí: Usar "some" en lugar de "every" para filtrar con lógica OR
 	const filteredDependencies = filters.every((filter) => !filter.characteristic || !filter.value)
 		? dependencias
 		: dependencias.filter((dep) =>
-			filters.some((filter) => {
+			filters.some((filter) => {//some**
 				if (!filter.characteristic || !filter.value) return false;
 				return dep[filter.characteristic as keyof Tienda] === filter.value;
 			})

@@ -120,7 +120,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, client }) => {
 			dispatch(
 				openModal({
 					title: "Éxito",
-					message: "Usuario y cliente actualizados exitosamente.",
+					message: "Usuario y cliente actualizados exitosamente",
 					variant: "success",
 					autoClose: true,
 				})
